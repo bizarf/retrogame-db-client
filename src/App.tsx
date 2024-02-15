@@ -10,20 +10,20 @@ const App = () => {
     const cookies = new Cookies();
 
     const fetchUserData = () => {
-        const jwt = cookies.get("jwt_auth");
+        const access_token = cookies.get("jwt_access_token");
 
         fetch(`http://127.0.0.1:8000/users/me/`, {
             method: "get",
             headers: {
                 "Content-Type": "application/json",
                 // Include the JWT token in the Authorization header
-                Authorization: `Bearer ${jwt}`,
+                Authorization: `Bearer ${access_token}`,
             },
         })
             .then((res) => res.json())
             .then((data) => {
-                if (data.success === true) {
-                    setUser(data.user);
+                if (data) {
+                    setUser(data);
                 }
             });
     };

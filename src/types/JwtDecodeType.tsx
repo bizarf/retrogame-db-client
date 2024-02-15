@@ -1,7 +1,7 @@
 type JwtDecodeType = {
     exp: number;
     iat: number;
-    user: string;
+    sub: string;
 };
 
 export default JwtDecodeType;

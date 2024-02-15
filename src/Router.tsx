@@ -3,6 +3,7 @@ import Register from "./components/pages/Register";
 import HomePage from "./components/pages/HomePage";
 import MainLayout from "./components/layouts/MainLayout";
 import Login from "./components/pages/Login";
+import Platforms from "./components/pages/Platforms";
 
 type Props = {
     fetchUserData: () => void;
@@ -24,6 +25,10 @@ const Router = ({ fetchUserData }: Props) => {
                 {
                     path: "/register",
                     element: <Register />,
+                },
+                {
+                    path: "/platforms",
+                    element: <Platforms />,
                 },
             ],
         },
