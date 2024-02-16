@@ -4,6 +4,7 @@ import HomePage from "./components/pages/HomePage";
 import MainLayout from "./components/layouts/MainLayout";
 import Login from "./components/pages/Login";
 import Platforms from "./components/pages/Platforms";
+import PlatformEditor from "./components/pages/PlatformEditor";
 
 type Props = {
     fetchUserData: () => void;
@@ -29,6 +30,14 @@ const Router = ({ fetchUserData }: Props) => {
                 {
                     path: "/platforms",
                     element: <Platforms />,
+                },
+                {
+                    path: "/platforms/add",
+                    element: <PlatformEditor />,
+                },
+                {
+                    path: "/platforms/edit/:platform_id",
+                    element: <PlatformEditor />,
                 },
             ],
         },
