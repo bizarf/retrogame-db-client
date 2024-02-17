@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../LoadingSpinner";
 import useUserStore from "../../stores/useUserStore";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useDeleteModalStore from "../../stores/useDeleteModalStore";
 import DeleteModal from "../modals/DeleteModal";
 
-type Platform = {
-    platform_id: string;
-    name: string;
-    logo_url: string;
+type Game = {
+    game_id: string;
+    game_title: string;
+    image_url: string;
+    platform_name: string;
 };
 
-const Platforms = () => {
-    const [platforms, setPlatforms] = useState<[Platform]>();
+const PlatformGameList = () => {
+    const [games, setGames] = useState<[Game]>();
+    const [platformName, setPlatformName] = useState<string>();
     const [loading, setLoading] = useState<boolean>(true);
 
     const { user } = useUserStore();
@@ -24,16 +26,19 @@ const Platforms = () => {
         resetDeleteModal,
     } = useDeleteModalStore();
 
+    const { platform_id } = useParams();
     const navigate = useNavigate();
 
-    const fetchPlatforms = () => {
-        fetch("http://127.0.0.1:8000/platforms")
+    const fetchPlatformGames = () => {
+        fetch(`http://127.0.0.1:8000/platform/${platform_id}`)
             .then((res) => {
                 return res.json();
             })
             .then((data) => {
+                console.log(data);
                 if (data.detail.success) {
-                    setPlatforms(data.detail.rows);
+                    setGames(data.detail.games);
+                    setPlatformName(data.detail.platform_name);
                 }
             })
             .finally(() => {
@@ -52,7 +57,7 @@ const Platforms = () => {
     };
 
     useEffect(() => {
-        fetchPlatforms();
+        fetchPlatformGames();
 
         return () => {
             resetDeleteModal();
@@ -62,9 +67,10 @@ const Platforms = () => {
     return (
         <>
             <h1 className="py-4 text-center text-4xl font-bold italic text-gray-800 dark:text-white">
-                Platforms
+                {platformName}
             </h1>
             {user?.role === "admin" && (
+                // work on this next
                 <Link
                     className="inline-flex items-center font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ml-4"
                     to="/platforms/add"
@@ -102,22 +108,22 @@ const Platforms = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                    {platforms &&
-                                        platforms.map((platform) => {
+                                    {games &&
+                                        games.map((game) => {
                                             return (
-                                                <tr key={platform.platform_id}>
+                                                <tr key={game.game_id}>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                                        {platform.logo_url}
+                                                        {game.image_url}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                                        {platform.name}
+                                                        {game.game_title}
                                                     </td>
                                                     {user?.role === "admin" && (
                                                         <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                                             <button
                                                                 onClick={() =>
                                                                     handleEditButtonClick(
-                                                                        platform.platform_id
+                                                                        game.game_id
                                                                     )
                                                                 }
                                                                 type="button"
@@ -128,7 +134,7 @@ const Platforms = () => {
                                                             <button
                                                                 onClick={() =>
                                                                     handleDeleteButtonClick(
-                                                                        platform.platform_id
+                                                                        game.game_id
                                                                     )
                                                                 }
                                                                 type="button"
@@ -153,4 +159,4 @@ const Platforms = () => {
     );
 };
 
-export default Platforms;
+export default PlatformGameList;

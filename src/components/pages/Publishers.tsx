@@ -11,6 +11,7 @@ type Platform = {
     logo_url: string;
 };
 
+// just made this file last night. start swapping platform names for publisher
 const Platforms = () => {
     const [platforms, setPlatforms] = useState<[Platform]>();
     const [loading, setLoading] = useState<boolean>(true);

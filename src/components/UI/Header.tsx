@@ -2,14 +2,10 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import useUserStore from "../../stores/useUserStore";
-import { jwtDecode } from "jwt-decode";
-import JwtDecodeType from "../../types/JwtDecodeType";
+import { fetchUserData } from "../../utilities/fetchUserData";
+import { fetchNewAccessToken } from "../../utilities/authUtils";
 
-type Props = {
-    fetchUserData: () => void;
-};
-
-const Header = ({ fetchUserData }: Props) => {
+const Header = () => {
     // user object state and setter
     const { user, setUser } = useUserStore();
 
@@ -23,23 +19,30 @@ const Header = ({ fetchUserData }: Props) => {
     };
 
     useEffect(() => {
-        const checkCookie = async () => {
+        const checkAuthCookie = async () => {
             const access_token = await cookies.get("jwt_access_token");
-            // refresh token logic. incomplete for now
             const refresh_token = await cookies.get("jwt_refresh_token");
-            if (refresh_token) {
-                const refresh_decode: JwtDecodeType = jwtDecode(refresh_token);
-                const refresh_exp = refresh_decode.exp * 1000;
-                if (refresh_exp < Date.now()) {
-                    cookies.remove("jwt_access_token");
-                    cookies.remove("jwt_refresh_token");
+
+            if (!access_token && refresh_token) {
+                try {
+                    await fetchNewAccessToken(refresh_token);
+                    const fetchUser = await fetchUserData();
+                    setUser(fetchUser);
+                } catch (e) {
+                    console.log(e);
                 }
             }
-            if (access_token) {
-                fetchUserData();
+
+            if (access_token && refresh_token) {
+                try {
+                    const fetchUser = await fetchUserData();
+                    setUser(fetchUser);
+                } catch (e) {
+                    console.log(e);
+                }
             }
         };
-        checkCookie();
+        checkAuthCookie();
     }, []);
 
     return (

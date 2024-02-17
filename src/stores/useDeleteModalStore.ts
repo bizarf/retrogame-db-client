@@ -6,8 +6,8 @@ interface DeleteModalState {
     resetDeleteModal: () => void;
     deleteMode: string;
     setDeleteMode: (deleteMode: string) => void;
-    id: number;
-    setId: (id: number) => void;
+    id: string;
+    setId: (id: string) => void;
 }
 
 const useDeleteModalStore = create<DeleteModalState>((set) => ({
@@ -16,8 +16,8 @@ const useDeleteModalStore = create<DeleteModalState>((set) => ({
     resetDeleteModal: () => set({ deleteModal: false }),
     deleteMode: "",
     setDeleteMode: (deleteMode: string) => set({ deleteMode }),
-    id: 0,
-    setId: (id: number) => set({ id }),
+    id: "",
+    setId: (id: string) => set({ id }),
 }));
 
 export default useDeleteModalStore;

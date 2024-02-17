@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
 import Cookies from "universal-cookie";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useDeleteModalStore from "../../stores/useDeleteModalStore";
+import { checkAccessToken } from "../../utilities/authUtils";
 
 const DeleteModal = () => {
     const cookies = new Cookies();
     const navigate = useNavigate();
-    const location = useLocation();
 
     const { setDeleteModal, deleteMode, id } = useDeleteModalStore();
 
@@ -14,26 +13,31 @@ const DeleteModal = () => {
         setDeleteModal();
     };
 
-    const handleDeletePlatform = (id: number) => {
-        // need to send the jwt as the route is protected
-        const access_token = cookies.get("jwt_access_token");
+    const handleDeletePlatform = async (id: number) => {
+        try {
+            checkAccessToken();
+            // need to send the jwt as the route is protected
+            const access_token = cookies.get("jwt_access_token");
 
-        fetch(`http://127.0.0.1:8000/platform/${id}`, {
-            method: "delete",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${access_token}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.detail.success) {
-                    setDeleteModal();
-                    navigate(0);
-                } else {
-                    console.log(data.detail.message);
-                }
-            });
+            fetch(`http://127.0.0.1:8000/platform/${id}`, {
+                method: "delete",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${access_token}`,
+                },
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.detail.success) {
+                        setDeleteModal();
+                        navigate(0);
+                    } else {
+                        console.log(data.detail.message);
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (

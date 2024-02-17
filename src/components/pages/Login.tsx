@@ -5,22 +5,17 @@ import { jwtDecode } from "jwt-decode";
 import JwtDecodeType from "../../types/JwtDecodeType";
 import useUserStore from "../../stores/useUserStore";
 import LoadingSpinner from "../LoadingSpinner";
+import { fetchUserData } from "../../utilities/fetchUserData";
 
-type Props = {
-    fetchUserData: () => void;
-};
-
-const Login = ({ fetchUserData }: Props) => {
+const Login = () => {
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [error, setError] = useState<string>();
-    // const [error, setError] = useState<[ErrorsType] | []>([]);
-    // if the success state is true, then the form will disappear and a success message will be displayed to the user
     const [loading, setLoading] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
 
     // user object state
-    const { user } = useUserStore();
+    const { user, setUser } = useUserStore();
 
     // initialize universal-cookie
     const cookies = new Cookies();
@@ -44,7 +39,7 @@ const Login = ({ fetchUserData }: Props) => {
             body: formData,
         })
             .then((res) => res.json())
-            .then((data) => {
+            .then(async (data) => {
                 // turn off the loading spinner
                 setLoading((state) => !state);
                 // data object can either return a token or errors. if we get the token object, then we decode the token and set that as the user state. we store the jwt in the cookie.
@@ -63,7 +58,12 @@ const Login = ({ fetchUserData }: Props) => {
                         // multiply the expiration value from the refresh token by 1000 to change the value to milliseconds so that it'll become a valid date
                         expires: new Date(refresh_decode.exp * 1000),
                     });
-                    fetchUserData();
+                    try {
+                        const fetchUser = await fetchUserData();
+                        setUser(fetchUser);
+                    } catch (e) {
+                        console.log(e);
+                    }
                     setSuccess((state) => !state);
                     setTimeout(() => {
                         navigate("/");
