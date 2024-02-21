@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import LoadingSpinner from "../LoadingSpinner";
-import useUserStore from "../../stores/useUserStore";
-import { Link, useNavigate } from "react-router-dom";
-import useDeleteModalStore from "../../stores/useDeleteModalStore";
-import DeleteModal from "../modals/DeleteModal";
+import LoadingSpinner from "../../LoadingSpinner";
+import useUserStore from "../../../stores/useUserStore";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import useDeleteModalStore from "../../../stores/useDeleteModalStore";
+import DeleteModal from "../../modals/DeleteModal";
 
-type Platform = {
+type Game = {
+    game_id: string;
+    game_title: string;
+    image_url: string;
+    platform_name: string;
     platform_id: string;
-    name: string;
-    logo_url: string;
 };
 
-const Platforms = () => {
-    const [platforms, setPlatforms] = useState<[Platform]>();
+const GenreGameList = () => {
+    const [games, setGames] = useState<[Game]>();
+    const [genreName, setGenreName] = useState<string>();
     const [loading, setLoading] = useState<boolean>(true);
 
     const { user } = useUserStore();
@@ -24,16 +27,18 @@ const Platforms = () => {
         resetDeleteModal,
     } = useDeleteModalStore();
 
+    const { genre_id } = useParams();
     const navigate = useNavigate();
 
-    const fetchPlatforms = () => {
-        fetch("http://127.0.0.1:8000/platforms")
+    const fetchGenreGames = () => {
+        fetch(`http://127.0.0.1:8000/genre/${genre_id}`)
             .then((res) => {
                 return res.json();
             })
             .then((data) => {
                 if (data.detail.success) {
-                    setPlatforms(data.detail.rows);
+                    setGames(data.detail.games);
+                    setGenreName(data.detail.genre_name);
                 }
             })
             .finally(() => {
@@ -42,17 +47,17 @@ const Platforms = () => {
     };
 
     const handleDeleteButtonClick = (id: string) => {
-        setDeleteMode("platform");
+        setDeleteMode("game");
         setId(id);
         setDeleteModal();
     };
 
     const handleEditButtonClick = (id: string) => {
-        navigate(`/platforms/edit/${id}`);
+        navigate(`/game/edit/${id}`);
     };
 
     useEffect(() => {
-        fetchPlatforms();
+        fetchGenreGames();
 
         return () => {
             resetDeleteModal();
@@ -62,16 +67,16 @@ const Platforms = () => {
     return (
         <>
             <h1 className="py-4 text-center text-4xl font-bold italic text-gray-800 dark:text-white">
-                Platforms
+                {genreName}
             </h1>
-            {user?.role === "admin" && (
+            {/* {user?.role === "admin" && (
                 <Link
                     className="inline-flex items-center font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ml-4"
                     to="/platforms/add"
                 >
-                    Add platform
+                    Add game
                 </Link>
-            )}
+            )} */}
             <div className="flex flex-col">
                 <div className="-m-1.5 overflow-x-auto">
                     <div className="p-1.5 min-w-full inline-block align-middle">
@@ -91,6 +96,12 @@ const Platforms = () => {
                                         >
                                             Name
                                         </th>
+                                        <th
+                                            scope="col"
+                                            className="px-6 py-3 text-start text-sm font-medium text-gray-500 uppercase"
+                                        >
+                                            Platform
+                                        </th>
                                         {user?.role === "admin" && (
                                             <th
                                                 scope="col"
@@ -102,22 +113,37 @@ const Platforms = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                    {platforms &&
-                                        platforms.map((platform) => {
+                                    {games &&
+                                        games.map((game) => {
                                             return (
-                                                <tr key={platform.platform_id}>
+                                                <tr key={game.game_id}>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                                        {platform.logo_url}
+                                                        <img
+                                                            src={game.image_url}
+                                                            alt=""
+                                                            className="max-w-24"
+                                                        />
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                                        {platform.name}
+                                                        <Link
+                                                            to={`/game/${game.game_id}`}
+                                                        >
+                                                            {game.game_title}
+                                                        </Link>
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                                        <Link
+                                                            to={`/platforms/${game.platform_id}`}
+                                                        >
+                                                            {game.platform_name}
+                                                        </Link>
                                                     </td>
                                                     {user?.role === "admin" && (
                                                         <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                                             <button
                                                                 onClick={() =>
                                                                     handleEditButtonClick(
-                                                                        platform.platform_id
+                                                                        game.game_id
                                                                     )
                                                                 }
                                                                 type="button"
@@ -128,7 +154,7 @@ const Platforms = () => {
                                                             <button
                                                                 onClick={() =>
                                                                     handleDeleteButtonClick(
-                                                                        platform.platform_id
+                                                                        game.game_id
                                                                     )
                                                                 }
                                                                 type="button"
@@ -153,4 +179,4 @@ const Platforms = () => {
     );
 };
 
-export default Platforms;
+export default GenreGameList;

@@ -96,6 +96,14 @@ const Header = () => {
                     aria-label="Global"
                 >
                     <div className="flex flex-row items-center gap-5 pb-2 overflow-x-auto sm:justify-end sm:pb-0 sm:overflow-x-visible [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500">
+                        {user?.role === "admin" && (
+                            <Link
+                                className="whitespace-nowrap font-medium text-slate-700 hover:text-slate-950 dark:text-white dark:hover:text-slate-200"
+                                to="/game/add"
+                            >
+                                Add game
+                            </Link>
+                        )}
                         <Link
                             className="whitespace-nowrap font-medium text-slate-700 hover:text-slate-950 dark:text-white dark:hover:text-slate-200"
                             to="/platforms"
@@ -104,9 +112,21 @@ const Header = () => {
                         </Link>
                         <Link
                             className="whitespace-nowrap font-medium text-slate-700 hover:text-slate-950 dark:text-white dark:hover:text-slate-200"
-                            to="#"
+                            to="/genres"
                         >
-                            Link
+                            Genres
+                        </Link>
+                        <Link
+                            className="whitespace-nowrap font-medium text-slate-700 hover:text-slate-950 dark:text-white dark:hover:text-slate-200"
+                            to="/developers"
+                        >
+                            Developers
+                        </Link>
+                        <Link
+                            className="whitespace-nowrap font-medium text-slate-700 hover:text-slate-950 dark:text-white dark:hover:text-slate-200"
+                            to="/publishers"
+                        >
+                            Publishers
                         </Link>
                     </div>
                 </nav>

@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
-import LoadingSpinner from "../LoadingSpinner";
-import useUserStore from "../../stores/useUserStore";
+import LoadingSpinner from "../../LoadingSpinner";
+import useUserStore from "../../../stores/useUserStore";
 import { Link, useNavigate } from "react-router-dom";
-import useDeleteModalStore from "../../stores/useDeleteModalStore";
-import DeleteModal from "../modals/DeleteModal";
+import useDeleteModalStore from "../../../stores/useDeleteModalStore";
+import DeleteModal from "../../modals/DeleteModal";
 
-type Platform = {
-    platform_id: string;
+type Genre = {
+    genre_id: string;
     name: string;
-    logo_url: string;
 };
 
-// just made this file last night. start swapping platform names for publisher
-const Platforms = () => {
-    const [platforms, setPlatforms] = useState<[Platform]>();
+const Genres = () => {
+    const [genres, setGenres] = useState<[Genre]>();
     const [loading, setLoading] = useState<boolean>(true);
 
     const { user } = useUserStore();
@@ -27,14 +25,14 @@ const Platforms = () => {
 
     const navigate = useNavigate();
 
-    const fetchPlatforms = () => {
-        fetch("http://127.0.0.1:8000/platforms")
+    const fetchGenres = () => {
+        fetch("http://127.0.0.1:8000/genres")
             .then((res) => {
                 return res.json();
             })
             .then((data) => {
                 if (data.detail.success) {
-                    setPlatforms(data.detail.rows);
+                    setGenres(data.detail.rows);
                 }
             })
             .finally(() => {
@@ -43,17 +41,17 @@ const Platforms = () => {
     };
 
     const handleDeleteButtonClick = (id: string) => {
-        setDeleteMode("platform");
+        setDeleteMode("genre");
         setId(id);
         setDeleteModal();
     };
 
     const handleEditButtonClick = (id: string) => {
-        navigate(`/platforms/edit/${id}`);
+        navigate(`/genres/edit/${id}`);
     };
 
     useEffect(() => {
-        fetchPlatforms();
+        fetchGenres();
 
         return () => {
             resetDeleteModal();
@@ -63,14 +61,14 @@ const Platforms = () => {
     return (
         <>
             <h1 className="py-4 text-center text-4xl font-bold italic text-gray-800 dark:text-white">
-                Platforms
+                Genres
             </h1>
             {user?.role === "admin" && (
                 <Link
                     className="inline-flex items-center font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ml-4"
-                    to="/platforms/add"
+                    to="/genres/add"
                 >
-                    Add platform
+                    Add genre
                 </Link>
             )}
             <div className="flex flex-col">
@@ -80,12 +78,6 @@ const Platforms = () => {
                             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead>
                                     <tr>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-500 uppercase"
-                                        >
-                                            Image
-                                        </th>
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-start text-sm font-medium text-gray-500 uppercase columns-8"
@@ -103,22 +95,23 @@ const Platforms = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                    {platforms &&
-                                        platforms.map((platform) => {
+                                    {genres &&
+                                        genres.map((genre) => {
                                             return (
-                                                <tr key={platform.platform_id}>
+                                                <tr key={genre.genre_id}>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                                        {platform.logo_url}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                                        {platform.name}
+                                                        <Link
+                                                            to={`/genres/${genre.genre_id}`}
+                                                        >
+                                                            {genre.name}
+                                                        </Link>
                                                     </td>
                                                     {user?.role === "admin" && (
                                                         <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                                             <button
                                                                 onClick={() =>
                                                                     handleEditButtonClick(
-                                                                        platform.platform_id
+                                                                        genre.genre_id
                                                                     )
                                                                 }
                                                                 type="button"
@@ -129,7 +122,7 @@ const Platforms = () => {
                                                             <button
                                                                 onClick={() =>
                                                                     handleDeleteButtonClick(
-                                                                        platform.platform_id
+                                                                        genre.genre_id
                                                                     )
                                                                 }
                                                                 type="button"
@@ -154,4 +147,4 @@ const Platforms = () => {
     );
 };
 
-export default Platforms;
+export default Genres;

@@ -13,13 +13,121 @@ const DeleteModal = () => {
         setDeleteModal();
     };
 
-    const handleDeletePlatform = async (id: number) => {
+    const handleDeletePlatform = async (id: string) => {
         try {
             checkAccessToken();
             // need to send the jwt as the route is protected
             const access_token = cookies.get("jwt_access_token");
 
             fetch(`http://127.0.0.1:8000/platform/${id}`, {
+                method: "delete",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${access_token}`,
+                },
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.detail.success) {
+                        setDeleteModal();
+                        navigate(0);
+                    } else {
+                        console.log(data.detail.message);
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleDeletePublisher = async (id: string) => {
+        try {
+            checkAccessToken();
+            // need to send the jwt as the route is protected
+            const access_token = cookies.get("jwt_access_token");
+
+            fetch(`http://127.0.0.1:8000/publisher/${id}`, {
+                method: "delete",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${access_token}`,
+                },
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.detail.success) {
+                        setDeleteModal();
+                        navigate(0);
+                    } else {
+                        console.log(data.detail.message);
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleDeleteGenre = async (id: string) => {
+        try {
+            checkAccessToken();
+            // need to send the jwt as the route is protected
+            const access_token = cookies.get("jwt_access_token");
+
+            fetch(`http://127.0.0.1:8000/genre/${id}`, {
+                method: "delete",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${access_token}`,
+                },
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.detail.success) {
+                        setDeleteModal();
+                        navigate(0);
+                    } else {
+                        console.log(data.detail.message);
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleDeleteDeveloper = async (id: string) => {
+        try {
+            checkAccessToken();
+            // need to send the jwt as the route is protected
+            const access_token = cookies.get("jwt_access_token");
+
+            fetch(`http://127.0.0.1:8000/developer/${id}`, {
+                method: "delete",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${access_token}`,
+                },
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.detail.success) {
+                        setDeleteModal();
+                        navigate(0);
+                    } else {
+                        console.log(data.detail.message);
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleDeleteGame = async (id: string) => {
+        try {
+            checkAccessToken();
+            // need to send the jwt as the route is protected
+            const access_token = cookies.get("jwt_access_token");
+
+            fetch(`http://127.0.0.1:8000/game/${id}`, {
                 method: "delete",
                 headers: {
                     "Content-Type": "application/json",
@@ -58,6 +166,38 @@ const DeleteModal = () => {
                     {deleteMode === "platform" && (
                         <button
                             onClick={() => handleDeletePlatform(id)}
+                            className="rounded-md border border-transparent bg-blue-600 px-10 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-offset-gray-800 mr-4"
+                        >
+                            Yes
+                        </button>
+                    )}
+                    {deleteMode === "publisher" && (
+                        <button
+                            onClick={() => handleDeletePublisher(id)}
+                            className="rounded-md border border-transparent bg-blue-600 px-10 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-offset-gray-800 mr-4"
+                        >
+                            Yes
+                        </button>
+                    )}
+                    {deleteMode === "genre" && (
+                        <button
+                            onClick={() => handleDeleteGenre(id)}
+                            className="rounded-md border border-transparent bg-blue-600 px-10 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-offset-gray-800 mr-4"
+                        >
+                            Yes
+                        </button>
+                    )}
+                    {deleteMode === "developer" && (
+                        <button
+                            onClick={() => handleDeleteDeveloper(id)}
+                            className="rounded-md border border-transparent bg-blue-600 px-10 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-offset-gray-800 mr-4"
+                        >
+                            Yes
+                        </button>
+                    )}
+                    {deleteMode === "game" && (
+                        <button
+                            onClick={() => handleDeleteGame(id)}
                             className="rounded-md border border-transparent bg-blue-600 px-10 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-offset-gray-800 mr-4"
                         >
                             Yes

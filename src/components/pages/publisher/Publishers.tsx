@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
-import LoadingSpinner from "../LoadingSpinner";
-import useUserStore from "../../stores/useUserStore";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import useDeleteModalStore from "../../stores/useDeleteModalStore";
-import DeleteModal from "../modals/DeleteModal";
+import LoadingSpinner from "../../LoadingSpinner";
+import useUserStore from "../../../stores/useUserStore";
+import { Link, useNavigate } from "react-router-dom";
+import useDeleteModalStore from "../../../stores/useDeleteModalStore";
+import DeleteModal from "../../modals/DeleteModal";
 
-type Game = {
-    game_id: string;
-    game_title: string;
-    image_url: string;
-    platform_name: string;
+type Publisher = {
+    publisher_id: string;
+    name: string;
 };
 
-const PlatformGameList = () => {
-    const [games, setGames] = useState<[Game]>();
-    const [platformName, setPlatformName] = useState<string>();
+// just made this file last night. start swapping platform names for publisher
+const Publishers = () => {
+    const [publishers, setPublishers] = useState<[Publisher]>();
     const [loading, setLoading] = useState<boolean>(true);
 
     const { user } = useUserStore();
@@ -26,19 +24,16 @@ const PlatformGameList = () => {
         resetDeleteModal,
     } = useDeleteModalStore();
 
-    const { platform_id } = useParams();
     const navigate = useNavigate();
 
-    const fetchPlatformGames = () => {
-        fetch(`http://127.0.0.1:8000/platform/${platform_id}`)
+    const fetchPublishers = () => {
+        fetch("http://127.0.0.1:8000/publishers")
             .then((res) => {
                 return res.json();
             })
             .then((data) => {
-                console.log(data);
                 if (data.detail.success) {
-                    setGames(data.detail.games);
-                    setPlatformName(data.detail.platform_name);
+                    setPublishers(data.detail.rows);
                 }
             })
             .finally(() => {
@@ -47,17 +42,17 @@ const PlatformGameList = () => {
     };
 
     const handleDeleteButtonClick = (id: string) => {
-        setDeleteMode("platform");
+        setDeleteMode("publisher");
         setId(id);
         setDeleteModal();
     };
 
     const handleEditButtonClick = (id: string) => {
-        navigate(`/platforms/edit/${id}`);
+        navigate(`/publishers/edit/${id}`);
     };
 
     useEffect(() => {
-        fetchPlatformGames();
+        fetchPublishers();
 
         return () => {
             resetDeleteModal();
@@ -67,15 +62,14 @@ const PlatformGameList = () => {
     return (
         <>
             <h1 className="py-4 text-center text-4xl font-bold italic text-gray-800 dark:text-white">
-                {platformName}
+                Publishers
             </h1>
             {user?.role === "admin" && (
-                // work on this next
                 <Link
                     className="inline-flex items-center font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ml-4"
-                    to="/platforms/add"
+                    to="/publishers/add"
                 >
-                    Add platform
+                    Add publisher
                 </Link>
             )}
             <div className="flex flex-col">
@@ -85,12 +79,6 @@ const PlatformGameList = () => {
                             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead>
                                     <tr>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-500 uppercase"
-                                        >
-                                            Image
-                                        </th>
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-start text-sm font-medium text-gray-500 uppercase columns-8"
@@ -108,22 +96,25 @@ const PlatformGameList = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                    {games &&
-                                        games.map((game) => {
+                                    {publishers &&
+                                        publishers.map((publisher) => {
                                             return (
-                                                <tr key={game.game_id}>
+                                                <tr
+                                                    key={publisher.publisher_id}
+                                                >
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                                        {game.image_url}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                                        {game.game_title}
+                                                        <Link
+                                                            to={`/publishers/${publisher.publisher_id}`}
+                                                        >
+                                                            {publisher.name}
+                                                        </Link>
                                                     </td>
                                                     {user?.role === "admin" && (
                                                         <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                                             <button
                                                                 onClick={() =>
                                                                     handleEditButtonClick(
-                                                                        game.game_id
+                                                                        publisher.publisher_id
                                                                     )
                                                                 }
                                                                 type="button"
@@ -134,7 +125,7 @@ const PlatformGameList = () => {
                                                             <button
                                                                 onClick={() =>
                                                                     handleDeleteButtonClick(
-                                                                        game.game_id
+                                                                        publisher.publisher_id
                                                                     )
                                                                 }
                                                                 type="button"
@@ -159,4 +150,4 @@ const PlatformGameList = () => {
     );
 };
 
-export default PlatformGameList;
+export default Publishers;
