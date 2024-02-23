@@ -115,7 +115,7 @@ const DeveloperEditor = () => {
             fetchDeveloperData(developer_id);
         }
 
-        if (user?.role != "admin") {
+        if (user && user.role != "admin") {
             navigate("/developers");
         }
 

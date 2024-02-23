@@ -241,9 +241,9 @@ const GameEditor = () => {
             fetchGameData();
         }
 
-        // if (user?.role != "admin") {
-        //     navigate("/");
-        // }
+        if (user?.role != "admin") {
+            navigate("/");
+        }
 
         return () => {
             resetEditMode();

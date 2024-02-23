@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../../LoadingSpinner";
 import useUserStore from "../../../stores/useUserStore";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { checkAccessToken } from "../../../utilities/authUtils";
 import DeleteModal from "../../modals/DeleteModal";
