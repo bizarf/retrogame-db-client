@@ -280,7 +280,7 @@ const GameEditor = () => {
                     name="gameDescription"
                     id="gameDescription"
                     rows={6}
-                    maxLength={400}
+                    maxLength={2000}
                     className="block w-full rounded-md border-gray-400 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 mb-3"
                     onChange={(e) => setGameDescription(e.target.value)}
                     value={gameDescription ?? ""}
