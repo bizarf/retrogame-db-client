@@ -27,7 +27,7 @@ const Publishers = () => {
     const navigate = useNavigate();
 
     const fetchPublishers = () => {
-        fetch("http://127.0.0.1:8000/publishers")
+        fetch("https://retrogame-db-python-api.onrender.com/publishers")
             .then((res) => {
                 return res.json();
             })

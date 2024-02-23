@@ -43,7 +43,7 @@ const Favourites = () => {
         await checkAccessToken();
         const access_token = cookies.get("jwt_access_token");
 
-        fetch(`http://127.0.0.1:8000/favourites/`, {
+        fetch(`https://retrogame-db-python-api.onrender.com/favourites/`, {
             method: "get",
             headers: {
                 "Content-Type": "application/json",

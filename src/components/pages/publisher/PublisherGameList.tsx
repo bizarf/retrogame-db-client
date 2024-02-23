@@ -37,7 +37,9 @@ const PublisherGameList = () => {
     const navigate = useNavigate();
 
     const fetchPublisherGames = () => {
-        fetch(`http://127.0.0.1:8000/publisher/${publisher_id}`)
+        fetch(
+            `https://retrogame-db-python-api.onrender.com/publisher/${publisher_id}`
+        )
             .then((res) => {
                 return res.json();
             })

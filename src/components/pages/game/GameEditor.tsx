@@ -76,7 +76,7 @@ const GameEditor = () => {
             await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
-            fetch("http://127.0.0.1:8000/game", {
+            fetch("https://retrogame-db-python-api.onrender.com/game", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -125,7 +125,7 @@ const GameEditor = () => {
         await checkAccessToken();
         const access_token = cookies.get("jwt_access_token");
 
-        fetch(`http://127.0.0.1:8000/game/${game_id}`, {
+        fetch(`https://retrogame-db-python-api.onrender.com/game/${game_id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -149,7 +149,7 @@ const GameEditor = () => {
     };
 
     const fetchGenres = () => {
-        fetch("http://127.0.0.1:8000/genres")
+        fetch("https://retrogame-db-python-api.onrender.com/genres")
             .then((res) => {
                 return res.json();
             })
@@ -164,7 +164,7 @@ const GameEditor = () => {
     };
 
     const fetchPlatforms = () => {
-        fetch("http://127.0.0.1:8000/platforms")
+        fetch("https://retrogame-db-python-api.onrender.com/platforms")
             .then((res) => {
                 return res.json();
             })
@@ -179,7 +179,7 @@ const GameEditor = () => {
     };
 
     const fetchPublishers = () => {
-        fetch("http://127.0.0.1:8000/publishers")
+        fetch("https://retrogame-db-python-api.onrender.com/publishers")
             .then((res) => {
                 return res.json();
             })
@@ -194,7 +194,7 @@ const GameEditor = () => {
     };
 
     const fetchDevelopers = () => {
-        fetch("http://127.0.0.1:8000/developers")
+        fetch("https://retrogame-db-python-api.onrender.com/developers")
             .then((res) => {
                 return res.json();
             })
@@ -209,7 +209,7 @@ const GameEditor = () => {
     };
 
     const fetchGameData = () => {
-        fetch(`http://127.0.0.1:8000/game/${game_id}`)
+        fetch(`https://retrogame-db-python-api.onrender.com/game/${game_id}`)
             .then((res) => {
                 return res.json();
             })

@@ -33,7 +33,7 @@ const Login = () => {
         }
 
         // start fetch api, with a post method and set the header content type to json
-        fetch("http://127.0.0.1:8000/users/login", {
+        fetch("https://retrogame-db-python-api.onrender.com/users/login", {
             method: "POST",
             // send to the body as it's form data which the endpoint it looking for
             body: formData,

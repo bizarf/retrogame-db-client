@@ -34,7 +34,7 @@ const DeveloperEditor = () => {
             await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
-            fetch("http://127.0.0.1:8000/developer", {
+            fetch("https://retrogame-db-python-api.onrender.com/developer", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -72,15 +72,18 @@ const DeveloperEditor = () => {
         await checkAccessToken();
         const access_token = cookies.get("jwt_access_token");
 
-        fetch(`http://127.0.0.1:8000/developer/${developer_id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                // Include the JWT token in the Authorization header
-                Authorization: `Bearer ${access_token}`,
-            },
-            body: JSON.stringify(data),
-        })
+        fetch(
+            `https://retrogame-db-python-api.onrender.com/developer/${developer_id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Include the JWT token in the Authorization header
+                    Authorization: `Bearer ${access_token}`,
+                },
+                body: JSON.stringify(data),
+            }
+        )
             .then((res) => res.json())
             .then((data) => {
                 if (data.detail.success) {
@@ -95,7 +98,9 @@ const DeveloperEditor = () => {
     };
 
     const fetchDeveloperData = (developer_id: string) => {
-        fetch(`http://127.0.0.1:8000/developer-data/${developer_id}`)
+        fetch(
+            `https://retrogame-db-python-api.onrender.com/developer-data/${developer_id}`
+        )
             .then((res) => {
                 return res.json();
             })

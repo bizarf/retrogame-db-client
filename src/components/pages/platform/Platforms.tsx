@@ -28,7 +28,7 @@ const Platforms = () => {
     const navigate = useNavigate();
 
     const fetchPlatforms = () => {
-        fetch("http://127.0.0.1:8000/platforms")
+        fetch("https://retrogame-db-python-api.onrender.com/platforms")
             .then((res) => {
                 return res.json();
             })

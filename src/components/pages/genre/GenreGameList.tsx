@@ -36,7 +36,7 @@ const GenreGameList = () => {
     const navigate = useNavigate();
 
     const fetchGenreGames = () => {
-        fetch(`http://127.0.0.1:8000/genre/${genre_id}`)
+        fetch(`https://retrogame-db-python-api.onrender.com/genre/${genre_id}`)
             .then((res) => {
                 return res.json();
             })

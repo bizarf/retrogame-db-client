@@ -6,14 +6,17 @@ export const fetchUserData = async () => {
     const access_token = cookies.get("jwt_access_token");
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/users/me/`, {
-            method: "get",
-            headers: {
-                "Content-Type": "application/json",
-                // Include the JWT token in the Authorization header
-                Authorization: `Bearer ${access_token}`,
-            },
-        });
+        const response = await fetch(
+            `https://retrogame-db-python-api.onrender.com/users/me/`,
+            {
+                method: "get",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Include the JWT token in the Authorization header
+                    Authorization: `Bearer ${access_token}`,
+                },
+            }
+        );
         if (!response.ok) {
             throw new Error("Failed to fetch user data");
         }

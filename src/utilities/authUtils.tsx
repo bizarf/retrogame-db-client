@@ -21,7 +21,7 @@ export const checkAccessToken = async () => {
 export const fetchNewAccessToken = async (refresh_token: string) => {
     try {
         const response = await fetch(
-            `http://127.0.0.1:8000/token/refresh?refresh_token=${refresh_token}`,
+            `https://retrogame-db-python-api.onrender.com/token/refresh?refresh_token=${refresh_token}`,
             {
                 method: "post",
                 headers: {

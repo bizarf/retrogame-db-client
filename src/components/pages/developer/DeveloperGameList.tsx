@@ -36,7 +36,9 @@ const DeveloperGameList = () => {
     const navigate = useNavigate();
 
     const fetchDeveloperGames = () => {
-        fetch(`http://127.0.0.1:8000/developer/${developer_id}`)
+        fetch(
+            `https://retrogame-db-python-api.onrender.com/developer/${developer_id}`
+        )
             .then((res) => {
                 return res.json();
             })

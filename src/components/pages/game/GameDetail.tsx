@@ -40,7 +40,7 @@ const GameDetail = () => {
     const { game_id } = useParams();
 
     const fetchGameData = () => {
-        fetch(`http://127.0.0.1:8000/game/${game_id}`)
+        fetch(`https://retrogame-db-python-api.onrender.com/game/${game_id}`)
             .then((res) => {
                 return res.json();
             })
@@ -64,7 +64,7 @@ const GameDetail = () => {
             await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
-            fetch("http://127.0.0.1:8000/favourites/", {
+            fetch("https://retrogame-db-python-api.onrender.com/favourites/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -100,14 +100,17 @@ const GameDetail = () => {
             await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
-            fetch(`http://127.0.0.1:8000/favourites/${game_id}`, {
-                method: "get",
-                headers: {
-                    "Content-Type": "application/json",
-                    // Include the JWT token in the Authorization header
-                    Authorization: `Bearer ${access_token}`,
-                },
-            })
+            fetch(
+                `https://retrogame-db-python-api.onrender.com/favourites/${game_id}`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-Type": "application/json",
+                        // Include the JWT token in the Authorization header
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                }
+            )
                 .then((res) => {
                     return res.json();
                 })

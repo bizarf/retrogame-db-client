@@ -19,13 +19,16 @@ const DeleteModal = () => {
             // need to send the jwt as the route is protected
             const access_token = cookies.get("jwt_access_token");
 
-            fetch(`http://127.0.0.1:8000/platform/${id}`, {
-                method: "delete",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${access_token}`,
-                },
-            })
+            fetch(
+                `https://retrogame-db-python-api.onrender.com/platform/${id}`,
+                {
+                    method: "delete",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                }
+            )
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.detail.success) {
@@ -46,13 +49,16 @@ const DeleteModal = () => {
             // need to send the jwt as the route is protected
             const access_token = cookies.get("jwt_access_token");
 
-            fetch(`http://127.0.0.1:8000/publisher/${id}`, {
-                method: "delete",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${access_token}`,
-                },
-            })
+            fetch(
+                `https://retrogame-db-python-api.onrender.com/publisher/${id}`,
+                {
+                    method: "delete",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                }
+            )
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.detail.success) {
@@ -73,7 +79,7 @@ const DeleteModal = () => {
             // need to send the jwt as the route is protected
             const access_token = cookies.get("jwt_access_token");
 
-            fetch(`http://127.0.0.1:8000/genre/${id}`, {
+            fetch(`https://retrogame-db-python-api.onrender.com/genre/${id}`, {
                 method: "delete",
                 headers: {
                     "Content-Type": "application/json",
@@ -100,13 +106,16 @@ const DeleteModal = () => {
             // need to send the jwt as the route is protected
             const access_token = cookies.get("jwt_access_token");
 
-            fetch(`http://127.0.0.1:8000/developer/${id}`, {
-                method: "delete",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${access_token}`,
-                },
-            })
+            fetch(
+                `https://retrogame-db-python-api.onrender.com/developer/${id}`,
+                {
+                    method: "delete",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                }
+            )
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.detail.success) {
@@ -127,7 +136,7 @@ const DeleteModal = () => {
             // need to send the jwt as the route is protected
             const access_token = cookies.get("jwt_access_token");
 
-            fetch(`http://127.0.0.1:8000/game/${id}`, {
+            fetch(`https://retrogame-db-python-api.onrender.com/game/${id}`, {
                 method: "delete",
                 headers: {
                     "Content-Type": "application/json",
@@ -154,13 +163,16 @@ const DeleteModal = () => {
             // need to send the jwt as the route is protected
             const access_token = cookies.get("jwt_access_token");
 
-            fetch(`http://127.0.0.1:8000/favourites/${id}`, {
-                method: "delete",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${access_token}`,
-                },
-            })
+            fetch(
+                `https://retrogame-db-python-api.onrender.com/favourites/${id}`,
+                {
+                    method: "delete",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                }
+            )
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.detail.success) {
