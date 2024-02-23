@@ -56,7 +56,7 @@ const Register = () => {
                     setSuccess((state) => !state);
                     setTimeout(() => {
                         navigate("/");
-                    }, 5000);
+                    }, 3000);
                 } else {
                     // error messages go here
                     setError(data.detail.message);

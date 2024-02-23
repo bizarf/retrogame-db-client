@@ -21,6 +21,7 @@ import DeveloperEditor from "./components/pages/developer/DeveloperEditor";
 import DeveloperGameList from "./components/pages/developer/DeveloperGameList";
 import GameEditor from "./components/pages/game/GameEditor";
 import GameDetail from "./components/pages/game/GameDetail";
+import Favourites from "./components/pages/favourites/Favourites";
 // games
 
 const Router = () => {
@@ -124,6 +125,11 @@ const Router = () => {
                 {
                     path: "/game/:game_id",
                     element: <GameDetail />,
+                },
+                // faves block
+                {
+                    path: "/favourites",
+                    element: <Favourites />,
                 },
             ],
         },

@@ -3,7 +3,7 @@ import Router from "./Router";
 
 const App = () => {
     return (
-        <div className="flex min-h-full flex-col bg-slate-900">
+        <div className="flex min-h-full flex-col bg-slate-100 dark:bg-slate-900">
             <Router />
         </div>
     );

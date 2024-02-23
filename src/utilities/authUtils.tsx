@@ -4,6 +4,7 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
+// checks if the access token has expired. used before any operation that makes use of a jwt access token
 export const checkAccessToken = async () => {
     const access_token = await cookies.get("jwt_access_token");
     const refresh_token = await cookies.get("jwt_refresh_token");

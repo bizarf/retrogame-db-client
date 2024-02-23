@@ -33,7 +33,7 @@ const PlatformEditor = () => {
         };
 
         try {
-            checkAccessToken();
+            await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
             fetch("http://127.0.0.1:8000/platform", {
@@ -61,7 +61,7 @@ const PlatformEditor = () => {
         }
     };
 
-    const handleEditPlatform = (
+    const handleEditPlatform = async (
         e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
     ) => {
         e.preventDefault();
@@ -72,6 +72,7 @@ const PlatformEditor = () => {
             logo_url: platformLogo,
         };
 
+        await checkAccessToken();
         const access_token = cookies.get("jwt_access_token");
 
         fetch(`http://127.0.0.1:8000/platform/${platform_id}`, {
@@ -128,64 +129,66 @@ const PlatformEditor = () => {
     }, [platform_id]);
 
     return (
-        <div className="mx-auto max-w-4xl">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-white text-center my-2">
-                Add Platform
-            </h2>
-            <form className="rounded-xl border border-slate-500 p-4 dark:bg-gray-800">
-                <label
-                    htmlFor="platformName"
-                    className="block font-semibold dark:text-white"
-                >
-                    Platform Name
-                </label>
-                <input
-                    type="text"
-                    name="platformName"
-                    id="platformName"
-                    className="block w-full rounded-md border-gray-400 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 mb-3"
-                    onChange={(e) => setPlatformName(e.target.value)}
-                    value={platformName ?? ""}
-                />
-                <label
-                    htmlFor="platformLogo"
-                    className="block font-semibold dark:text-white"
-                >
-                    Platform Logo URL
-                </label>
-                <input
-                    type="text"
-                    name="platformLogo"
-                    id="platformLogo"
-                    className="block w-full rounded-md border-gray-400 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 mb-3"
-                    onChange={(e) => setPlatformLogo(e.target.value)}
-                    value={platformLogo ?? ""}
-                />
-                {editMode ? (
-                    <button
-                        onClick={(e) => handleEditPlatform(e)}
-                        type="submit"
-                        className="postSubmitBtn mt-3 rounded-md border border-transparent bg-blue-600 px-10 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-offset-gray-800"
+        <>
+            <div className="mx-auto max-w-4xl ">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-white text-center my-2">
+                    Add Platform
+                </h2>
+                <form className="rounded-xl border border-slate-500 p-4 dark:bg-gray-800 bg-sky-200">
+                    <label
+                        htmlFor="platformName"
+                        className="block font-semibold dark:text-white"
                     >
-                        Edit
-                    </button>
-                ) : (
-                    <button
-                        onClick={(e) => handleAddPlatform(e)}
-                        type="submit"
-                        className="postSubmitBtn mt-3 rounded-md border border-transparent bg-blue-600 px-10 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-offset-gray-800"
+                        Platform Name
+                    </label>
+                    <input
+                        type="text"
+                        name="platformName"
+                        id="platformName"
+                        className="block w-full rounded-md border-gray-400 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 mb-3"
+                        onChange={(e) => setPlatformName(e.target.value)}
+                        value={platformName ?? ""}
+                    />
+                    <label
+                        htmlFor="platformLogo"
+                        className="block font-semibold dark:text-white"
                     >
-                        Submit
-                    </button>
-                )}
-                {error && (
-                    <div className="text-sm text-red-600 text-center mt-4">
-                        {error}
-                    </div>
-                )}
-            </form>
-            {loading && <LoadingSpinner />}
-        </div>
+                        Platform Logo URL
+                    </label>
+                    <input
+                        type="text"
+                        name="platformLogo"
+                        id="platformLogo"
+                        className="block w-full rounded-md border-gray-400 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400 mb-3"
+                        onChange={(e) => setPlatformLogo(e.target.value)}
+                        value={platformLogo ?? ""}
+                    />
+                    {editMode ? (
+                        <button
+                            onClick={(e) => handleEditPlatform(e)}
+                            type="submit"
+                            className="postSubmitBtn mt-3 rounded-md border border-transparent bg-blue-600 px-10 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-offset-gray-800"
+                        >
+                            Edit
+                        </button>
+                    ) : (
+                        <button
+                            onClick={(e) => handleAddPlatform(e)}
+                            type="submit"
+                            className="postSubmitBtn mt-3 rounded-md border border-transparent bg-blue-600 px-10 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 dark:bg-green-800 dark:hover:bg-green-900 dark:focus:ring-offset-gray-800"
+                        >
+                            Submit
+                        </button>
+                    )}
+                    {error && (
+                        <div className="text-sm text-red-600 text-center mt-4">
+                            {error}
+                        </div>
+                    )}
+                </form>
+                {loading && <LoadingSpinner />}
+            </div>
+        </>
     );
 };
 

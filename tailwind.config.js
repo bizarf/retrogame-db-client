@@ -9,4 +9,5 @@ export default {
         extend: {},
     },
     plugins: [require("preline/plugin")],
+    darkMode: "class",
 };

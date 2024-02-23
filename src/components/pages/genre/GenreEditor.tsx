@@ -31,7 +31,7 @@ const GenreEditor = () => {
         };
 
         try {
-            checkAccessToken();
+            await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
             fetch("http://127.0.0.1:8000/genre", {
@@ -59,7 +59,7 @@ const GenreEditor = () => {
         }
     };
 
-    const handleEditGenre = (
+    const handleEditGenre = async (
         e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
     ) => {
         e.preventDefault();
@@ -69,6 +69,7 @@ const GenreEditor = () => {
             name: genreName,
         };
 
+        await checkAccessToken();
         const access_token = cookies.get("jwt_access_token");
 
         fetch(`http://127.0.0.1:8000/genre/${genre_id}`, {
@@ -128,7 +129,7 @@ const GenreEditor = () => {
             <h2 className="text-xl font-bold text-gray-800 dark:text-white text-center my-2">
                 Add Genre
             </h2>
-            <form className="rounded-xl border border-slate-500 p-4 dark:bg-gray-800">
+            <form className="rounded-xl border border-slate-500 p-4 dark:bg-gray-800 bg-sky-200">
                 <label
                     htmlFor="genreName"
                     className="block font-semibold dark:text-white"

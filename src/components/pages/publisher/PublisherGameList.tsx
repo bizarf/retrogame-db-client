@@ -4,6 +4,7 @@ import useUserStore from "../../../stores/useUserStore";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useDeleteModalStore from "../../../stores/useDeleteModalStore";
 import DeleteModal from "../../modals/DeleteModal";
+import imagePlaceholder from "../../../assets/images/image_placeholder.webp";
 
 type Game = {
     game_id: string;
@@ -13,6 +14,8 @@ type Game = {
     genre_name: string;
     platform_id: string;
     platform_name: string;
+    developer_id: string;
+    developer_name: string;
 };
 
 // work on this
@@ -49,15 +52,18 @@ const PublisherGameList = () => {
             });
     };
 
-    const handleRemoveButtonClick = (id: string) => {
-        setDeleteMode("favourite");
+    const handleDeleteButtonClick = (id: string) => {
+        setDeleteMode("game");
         setId(id);
         setDeleteModal();
     };
 
+    const handleEditButtonClick = (id: string) => {
+        navigate(`/game/edit/${id}`);
+    };
+
     useEffect(() => {
         fetchPublisherGames();
-        console.log(games);
 
         return () => {
             resetDeleteModal();
@@ -65,7 +71,7 @@ const PublisherGameList = () => {
     }, []);
 
     return (
-        <>
+        <div className="bg-gradient-to-b from-violet-600/[.15] via-transparent">
             <h1 className="py-4 text-center text-4xl font-bold italic text-gray-800 dark:text-white">
                 {publisherName}
             </h1>
@@ -73,54 +79,73 @@ const PublisherGameList = () => {
                 <div className="-m-1.5 overflow-x-auto">
                     <div className="p-1.5 min-w-full inline-block align-middle">
                         <div className="overflow-hidden">
-                            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
                                 <thead>
                                     <tr>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-500 uppercase"
+                                            className="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-400 uppercase"
                                         >
                                             Image
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-500 uppercase columns-8"
+                                            className="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-400 uppercase columns-6"
                                         >
                                             Name
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-500 uppercase"
+                                            className="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-400 uppercase"
                                         >
                                             Genre
                                         </th>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-500 uppercase"
+                                            className="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-400 uppercase"
                                         >
                                             Platform
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-400 uppercase"
+                                        >
+                                            Developer
                                         </th>
                                         {user?.role === "admin" && (
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3 text-end text-sm font-medium text-gray-500 uppercase"
+                                                className="px-6 py-3 text-end text-sm font-medium text-gray-800 dark:text-gray-400 uppercase"
                                             >
                                                 Actions
                                             </th>
                                         )}
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tbody className="divide-y divide-gray-300 dark:divide-gray-700">
                                     {games &&
                                         games.map((game) => {
                                             return (
                                                 <tr key={game.game_id}>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
-                                                        <img
-                                                            src={game.image_url}
-                                                            alt=""
-                                                            className="max-w-24"
-                                                        />
+                                                        {game.image_url ===
+                                                        "" ? (
+                                                            <img
+                                                                src={
+                                                                    imagePlaceholder
+                                                                }
+                                                                alt=""
+                                                                className="max-w-24 border solid border-black"
+                                                            />
+                                                        ) : (
+                                                            <img
+                                                                src={
+                                                                    game.image_url
+                                                                }
+                                                                alt=""
+                                                                className="max-w-24 border solid border-black"
+                                                            />
+                                                        )}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                                         <Link
@@ -141,6 +166,15 @@ const PublisherGameList = () => {
                                                             to={`/platforms/${game.platform_id}`}
                                                         >
                                                             {game.platform_name}
+                                                        </Link>
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                                        <Link
+                                                            to={`/developers/${game.developer_id}`}
+                                                        >
+                                                            {
+                                                                game.developer_name
+                                                            }
                                                         </Link>
                                                     </td>
                                                     {user?.role === "admin" && (
@@ -180,7 +214,7 @@ const PublisherGameList = () => {
                 {deleteModal && <DeleteModal />}
             </div>
             {loading && <LoadingSpinner />}
-        </>
+        </div>
     );
 };
 

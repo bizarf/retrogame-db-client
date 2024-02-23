@@ -59,7 +59,7 @@ const Genres = () => {
     }, []);
 
     return (
-        <>
+        <div className="bg-gradient-to-b from-violet-600/[.15] via-transparent">
             <h1 className="py-4 text-center text-4xl font-bold italic text-gray-800 dark:text-white">
                 Genres
             </h1>
@@ -75,26 +75,26 @@ const Genres = () => {
                 <div className="-m-1.5 overflow-x-auto">
                     <div className="p-1.5 min-w-full inline-block align-middle">
                         <div className="overflow-hidden">
-                            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
                                 <thead>
                                     <tr>
                                         <th
                                             scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-500 uppercase columns-8"
+                                            className="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-400 uppercase columns-8"
                                         >
                                             Name
                                         </th>
                                         {user?.role === "admin" && (
                                             <th
                                                 scope="col"
-                                                className="px-6 py-3 text-end text-sm font-medium text-gray-500 uppercase"
+                                                className="px-6 py-3 text-end text-sm font-medium text-gray-800 dark:text-gray-400 uppercase"
                                             >
                                                 Actions
                                             </th>
                                         )}
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tbody className="divide-y divide-gray-300 dark:divide-gray-700">
                                     {genres &&
                                         genres.map((genre) => {
                                             return (
@@ -143,7 +143,7 @@ const Genres = () => {
                 {deleteModal && <DeleteModal />}
             </div>
             {loading && <LoadingSpinner />}
-        </>
+        </div>
     );
 };
 

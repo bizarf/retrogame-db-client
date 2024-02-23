@@ -55,7 +55,7 @@ const GameEditor = () => {
     const { user } = useUserStore();
     const { editMode, setEditMode, resetEditMode } = useEditorStore();
 
-    const handleAddGame = (
+    const handleAddGame = async (
         e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
     ) => {
         e.preventDefault();
@@ -73,7 +73,7 @@ const GameEditor = () => {
         };
 
         try {
-            checkAccessToken();
+            await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
             fetch("http://127.0.0.1:8000/game", {
@@ -105,7 +105,7 @@ const GameEditor = () => {
         }
     };
 
-    const handleEditGame = (
+    const handleEditGame = async (
         e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
     ) => {
         e.preventDefault();
@@ -122,6 +122,7 @@ const GameEditor = () => {
             image_url: gameImage,
         };
 
+        await checkAccessToken();
         const access_token = cookies.get("jwt_access_token");
 
         fetch(`http://127.0.0.1:8000/game/${game_id}`, {
@@ -254,7 +255,7 @@ const GameEditor = () => {
             <h2 className="text-xl font-bold text-gray-800 dark:text-white text-center my-2">
                 Add Game
             </h2>
-            <form className="rounded-xl border border-slate-500 p-4 bg-gray-800 mb-6">
+            <form className="rounded-xl border border-slate-500 p-4 dark:bg-gray-800 mb-6 bg-sky-200">
                 <label
                     htmlFor="gameName"
                     className="block font-semibold dark:text-white"
@@ -307,7 +308,7 @@ const GameEditor = () => {
                 <select
                     name="genres"
                     id="genres"
-                    className="block font-semibold p-1 rounded bg-slate-900 text-white text-sm mb-3"
+                    className="block font-semibold p-1 rounded dark:bg-slate-900 dark:text-white text-sm mb-3"
                     onChange={(e) => setGenreId(e.target.value)}
                     value={genreId ?? ""}
                 >
@@ -335,7 +336,7 @@ const GameEditor = () => {
                 <select
                     name="platforms"
                     id="platforms"
-                    className="block font-semibold p-1 rounded bg-slate-900 text-white text-sm mb-3"
+                    className="block font-semibold p-1 rounded dark:bg-slate-900 dark:text-white text-sm mb-3"
                     onChange={(e) => setPlatformId(e.target.value)}
                     value={platformId ?? ""}
                 >
@@ -363,7 +364,7 @@ const GameEditor = () => {
                 <select
                     name="developers"
                     id="developers"
-                    className="block font-semibold p-1 rounded bg-slate-900 text-white text-sm mb-3"
+                    className="block font-semibold p-1 rounded dark:bg-slate-900 dark:text-white text-sm mb-3"
                     onChange={(e) => setDeveloperId(e.target.value)}
                     value={developerId ?? ""}
                 >
@@ -391,7 +392,7 @@ const GameEditor = () => {
                 <select
                     name="publishers"
                     id="publishers"
-                    className="block font-semibold p-1 rounded bg-slate-900 text-white text-sm mb-3"
+                    className="block font-semibold p-1 rounded dark:bg-slate-900 dark:text-white text-sm mb-3"
                     onChange={(e) => setPublisherId(e.target.value)}
                     value={publisherId ?? ""}
                 >
