@@ -38,7 +38,7 @@ const Register = () => {
         };
 
         // start fetch api, with a post method and set the header content type to json
-        fetch("https://retrogame-db-python-api.onrender.com/users/register", {
+        fetch(`${import.meta.env.VITE_API_HOST}/users/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

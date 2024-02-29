@@ -7,7 +7,7 @@ export const fetchUserData = async () => {
 
     try {
         const response = await fetch(
-            `https://retrogame-db-python-api.onrender.com/users/me/`,
+            `${import.meta.env.VITE_API_HOST}/users/me/`,
             {
                 method: "get",
                 headers: {

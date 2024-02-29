@@ -34,7 +34,7 @@ const GenreEditor = () => {
             await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
-            fetch("https://retrogame-db-python-api.onrender.com/genre", {
+            fetch(`${import.meta.env.VITE_API_HOST}/genre`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -72,18 +72,15 @@ const GenreEditor = () => {
         await checkAccessToken();
         const access_token = cookies.get("jwt_access_token");
 
-        fetch(
-            `https://retrogame-db-python-api.onrender.com/genre/${genre_id}`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    // Include the JWT token in the Authorization header
-                    Authorization: `Bearer ${access_token}`,
-                },
-                body: JSON.stringify(data),
-            }
-        )
+        fetch(`${import.meta.env.VITE_API_HOST}/genre/${genre_id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                // Include the JWT token in the Authorization header
+                Authorization: `Bearer ${access_token}`,
+            },
+            body: JSON.stringify(data),
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (data.detail.success) {
@@ -98,9 +95,7 @@ const GenreEditor = () => {
     };
 
     const fetchGenreData = (genre_id: string) => {
-        fetch(
-            `https://retrogame-db-python-api.onrender.com/genre-data/${genre_id}`
-        )
+        fetch(`${import.meta.env.VITE_API_HOST}/genre-data/${genre_id}`)
             .then((res) => {
                 return res.json();
             })

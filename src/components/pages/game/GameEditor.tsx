@@ -76,7 +76,7 @@ const GameEditor = () => {
             await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
-            fetch("https://retrogame-db-python-api.onrender.com/game", {
+            fetch(`${import.meta.env.VITE_API_HOST}/game`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -125,7 +125,7 @@ const GameEditor = () => {
         await checkAccessToken();
         const access_token = cookies.get("jwt_access_token");
 
-        fetch(`https://retrogame-db-python-api.onrender.com/game/${game_id}`, {
+        fetch(`${import.meta.env.VITE_API_HOST}/game/${game_id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -149,7 +149,7 @@ const GameEditor = () => {
     };
 
     const fetchGenres = () => {
-        fetch("https://retrogame-db-python-api.onrender.com/genres")
+        fetch(`${import.meta.env.VITE_API_HOST}/genres`)
             .then((res) => {
                 return res.json();
             })
@@ -164,7 +164,7 @@ const GameEditor = () => {
     };
 
     const fetchPlatforms = () => {
-        fetch("https://retrogame-db-python-api.onrender.com/platforms")
+        fetch(`${import.meta.env.VITE_API_HOST}/platforms`)
             .then((res) => {
                 return res.json();
             })
@@ -179,7 +179,7 @@ const GameEditor = () => {
     };
 
     const fetchPublishers = () => {
-        fetch("https://retrogame-db-python-api.onrender.com/publishers")
+        fetch(`${import.meta.env.VITE_API_HOST}/publishers`)
             .then((res) => {
                 return res.json();
             })
@@ -194,7 +194,7 @@ const GameEditor = () => {
     };
 
     const fetchDevelopers = () => {
-        fetch("https://retrogame-db-python-api.onrender.com/developers")
+        fetch(`${import.meta.env.VITE_API_HOST}/developers`)
             .then((res) => {
                 return res.json();
             })
@@ -209,7 +209,7 @@ const GameEditor = () => {
     };
 
     const fetchGameData = () => {
-        fetch(`https://retrogame-db-python-api.onrender.com/game/${game_id}`)
+        fetch(`${import.meta.env.VITE_API_HOST}/game/${game_id}`)
             .then((res) => {
                 return res.json();
             })

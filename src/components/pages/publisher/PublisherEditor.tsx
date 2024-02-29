@@ -34,7 +34,7 @@ const PublisherEditor = () => {
             await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
-            fetch("https://retrogame-db-python-api.onrender.com/publisher", {
+            fetch(`${import.meta.env.VITE_API_HOST}/publisher`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -72,18 +72,15 @@ const PublisherEditor = () => {
         await checkAccessToken();
         const access_token = cookies.get("jwt_access_token");
 
-        fetch(
-            `https://retrogame-db-python-api.onrender.com/publisher/${publisher_id}`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    // Include the JWT token in the Authorization header
-                    Authorization: `Bearer ${access_token}`,
-                },
-                body: JSON.stringify(data),
-            }
-        )
+        fetch(`${import.meta.env.VITE_API_HOST}/publisher/${publisher_id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                // Include the JWT token in the Authorization header
+                Authorization: `Bearer ${access_token}`,
+            },
+            body: JSON.stringify(data),
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (data.detail.success) {
@@ -98,9 +95,7 @@ const PublisherEditor = () => {
     };
 
     const fetchPublisherData = (publisher_id: string) => {
-        fetch(
-            `https://retrogame-db-python-api.onrender.com/publisher-data/${publisher_id}`
-        )
+        fetch(`${import.meta.env.VITE_API_HOST}/publisher-data/${publisher_id}`)
             .then((res) => {
                 return res.json();
             })

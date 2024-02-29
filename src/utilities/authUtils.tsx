@@ -21,7 +21,9 @@ export const checkAccessToken = async () => {
 export const fetchNewAccessToken = async (refresh_token: string) => {
     try {
         const response = await fetch(
-            `https://retrogame-db-python-api.onrender.com/token/refresh?refresh_token=${refresh_token}`,
+            `${
+                import.meta.env.VITE_API_HOST
+            }/token/refresh?refresh_token=${refresh_token}`,
             {
                 method: "post",
                 headers: {

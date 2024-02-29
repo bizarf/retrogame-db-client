@@ -40,7 +40,7 @@ const GameDetail = () => {
     const { game_id } = useParams();
 
     const fetchGameData = () => {
-        fetch(`https://retrogame-db-python-api.onrender.com/game/${game_id}`)
+        fetch(`${import.meta.env.VITE_API_HOST}/game/${game_id}`)
             .then((res) => {
                 return res.json();
             })
@@ -64,7 +64,7 @@ const GameDetail = () => {
             await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
-            fetch("https://retrogame-db-python-api.onrender.com/favourites/", {
+            fetch(`${import.meta.env.VITE_API_HOST}/favourites/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -100,17 +100,14 @@ const GameDetail = () => {
             await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
-            fetch(
-                `https://retrogame-db-python-api.onrender.com/favourites/${game_id}`,
-                {
-                    method: "get",
-                    headers: {
-                        "Content-Type": "application/json",
-                        // Include the JWT token in the Authorization header
-                        Authorization: `Bearer ${access_token}`,
-                    },
-                }
-            )
+            fetch(`${import.meta.env.VITE_API_HOST}/favourites/${game_id}`, {
+                method: "get",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Include the JWT token in the Authorization header
+                    Authorization: `Bearer ${access_token}`,
+                },
+            })
                 .then((res) => {
                     return res.json();
                 })
@@ -161,7 +158,7 @@ const GameDetail = () => {
                                     />
                                 ) : (
                                     <img
-                                        className="max-w-xs sm:max-w-md border solid border-black"
+                                        className="max-w-xs sm:max-w-md sm:w-[28rem] border solid border-black"
                                         src={game.image_url}
                                         alt="Image Description"
                                     />

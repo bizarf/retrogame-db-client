@@ -13,7 +13,15 @@ To run this project on your local server, first install the dependencies with th
 npm install
 ```
 
-After that is done, you can start the server with:
+Now create a file called ".env.development" and ".env.production" at the root of the project and inside each file add:
+
+```
+VITE_API_HOST="(backend_host_location)"
+```
+
+The VITE_API_HOST variable in ".env.development" is for development purposes, while the variable in ".env.production" is used when Vite builds the site.
+
+Finally, you can start the server with:
 
 ```
 npm run dev
@@ -29,7 +37,7 @@ npm run dev
 -   [x] Registration and login system
 -   [x] JWT access and refresh tokens
 -   [x] Mobile support
--   [] User game rating system
+-   [ ] User game rating system
 
 ##### Tools and technologies used:
 

@@ -55,7 +55,7 @@ const Router = () => {
                     element: <PlatformEditor />,
                 },
                 {
-                    path: "/platforms/:platform_id",
+                    path: "/platforms/gamelist/:platform_id",
                     element: <PlatformGameList />,
                 },
                 {
@@ -76,7 +76,7 @@ const Router = () => {
                     element: <PublisherEditor />,
                 },
                 {
-                    path: "/publishers/:publisher_id",
+                    path: "/publishers/gamelist/:publisher_id",
                     element: <PublisherGameList />,
                 },
                 // genre block
@@ -93,7 +93,7 @@ const Router = () => {
                     element: <GenreEditor />,
                 },
                 {
-                    path: "/genres/:genre_id",
+                    path: "/genres/gamelist/:genre_id",
                     element: <GenreGameList />,
                 },
                 // developer block
@@ -110,7 +110,7 @@ const Router = () => {
                     element: <DeveloperEditor />,
                 },
                 {
-                    path: "/developers/:developer_id",
+                    path: "/developers/gamelist/:developer_id",
                     element: <DeveloperGameList />,
                 },
                 // game block

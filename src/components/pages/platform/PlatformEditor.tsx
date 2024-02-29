@@ -36,7 +36,7 @@ const PlatformEditor = () => {
             await checkAccessToken();
             const access_token = cookies.get("jwt_access_token");
 
-            fetch("https://retrogame-db-python-api.onrender.com/platform", {
+            fetch(`${import.meta.env.VITE_API_HOST}/platform`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -75,18 +75,15 @@ const PlatformEditor = () => {
         await checkAccessToken();
         const access_token = cookies.get("jwt_access_token");
 
-        fetch(
-            `https://retrogame-db-python-api.onrender.com/platform/${platform_id}`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    // Include the JWT token in the Authorization header
-                    Authorization: `Bearer ${access_token}`,
-                },
-                body: JSON.stringify(data),
-            }
-        )
+        fetch(`${import.meta.env.VITE_API_HOST}/platform/${platform_id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                // Include the JWT token in the Authorization header
+                Authorization: `Bearer ${access_token}`,
+            },
+            body: JSON.stringify(data),
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (data.detail.success) {
@@ -101,9 +98,7 @@ const PlatformEditor = () => {
     };
 
     const fetchPlatformData = (platform_id: string) => {
-        fetch(
-            `https://retrogame-db-python-api.onrender.com/platform-data/${platform_id}`
-        )
+        fetch(`${import.meta.env.VITE_API_HOST}/platform-data/${platform_id}`)
             .then((res) => {
                 return res.json();
             })

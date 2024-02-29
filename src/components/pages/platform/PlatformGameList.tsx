@@ -5,6 +5,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import useDeleteModalStore from "../../../stores/useDeleteModalStore";
 import DeleteModal from "../../modals/DeleteModal";
 import imagePlaceholder from "../../../assets/images/image_placeholder.webp";
+import THImage from "../../UI/tableHeaders/THImage";
+import THName from "../../UI/tableHeaders/THName";
+import THActions from "../../UI/tableHeaders/THActions";
+import THGenre from "../../UI/tableHeaders/THGenre";
+import THDeveloper from "../../UI/tableHeaders/THDeveloper";
+import THPublisher from "../../UI/tableHeaders/THPublisher";
+import EditBtn from "../../UI/EditBtn";
+import DeleteBtn from "../../UI/DeleteBtn";
 
 type Game = {
     game_id: string;
@@ -36,9 +44,7 @@ const PlatformGameList = () => {
     const navigate = useNavigate();
 
     const fetchPlatformGames = () => {
-        fetch(
-            `https://retrogame-db-python-api.onrender.com/platform/${platform_id}`
-        )
+        fetch(`${import.meta.env.VITE_API_HOST}/platform/${platform_id}`)
             .then((res) => {
                 return res.json();
             })
@@ -80,50 +86,20 @@ const PlatformGameList = () => {
                 <div className="-m-1.5 overflow-x-auto">
                     <div className="p-1.5 min-w-full inline-block align-middle">
                         <div className="overflow-hidden">
-                            <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
+                            <table className="min-w-full divide-y divide-gray-400 dark:divide-gray-700">
                                 <thead>
                                     <tr>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-400 uppercase"
-                                        >
-                                            Image
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-400 uppercase columns-6"
-                                        >
-                                            Name
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-400 uppercase"
-                                        >
-                                            Genre
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-400 uppercase"
-                                        >
-                                            Developer
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-400 uppercase"
-                                        >
-                                            Publisher
-                                        </th>
+                                        <THImage />
+                                        <THName />
+                                        <THGenre />
+                                        <THDeveloper />
+                                        <THPublisher />
                                         {user?.role === "admin" && (
-                                            <th
-                                                scope="col"
-                                                className="px-6 py-3 text-end text-sm font-medium text-gray-800 dark:text-gray-400 uppercase"
-                                            >
-                                                Actions
-                                            </th>
+                                            <THActions />
                                         )}
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-300 dark:divide-gray-700">
+                                <tbody className="divide-y divide-gray-400 dark:divide-gray-700">
                                     {games &&
                                         games.map((game) => {
                                             return (
@@ -158,14 +134,14 @@ const PlatformGameList = () => {
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                                         <Link
-                                                            to={`/genres/${game.genre_id}`}
+                                                            to={`/genres/gamelist/${game.genre_id}`}
                                                         >
                                                             {game.genre_name}
                                                         </Link>
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                                         <Link
-                                                            to={`/developers/${game.developer_id}`}
+                                                            to={`/developers/gamelist/${game.developer_id}`}
                                                         >
                                                             {
                                                                 game.developer_name
@@ -174,7 +150,7 @@ const PlatformGameList = () => {
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
                                                         <Link
-                                                            to={`/publishers/${game.publisher_id}`}
+                                                            to={`/publishers/gamelist/${game.publisher_id}`}
                                                         >
                                                             {
                                                                 game.publisher_name
@@ -183,28 +159,20 @@ const PlatformGameList = () => {
                                                     </td>
                                                     {user?.role === "admin" && (
                                                         <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                                            <button
+                                                            <EditBtn
                                                                 onClick={() =>
                                                                     handleEditButtonClick(
                                                                         game.game_id
                                                                     )
                                                                 }
-                                                                type="button"
-                                                                className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 mr-4"
-                                                            >
-                                                                Edit
-                                                            </button>
-                                                            <button
+                                                            />
+                                                            <DeleteBtn
                                                                 onClick={() =>
                                                                     handleDeleteButtonClick(
                                                                         game.game_id
                                                                     )
                                                                 }
-                                                                type="button"
-                                                                className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                                                            >
-                                                                Delete
-                                                            </button>
+                                                            />
                                                         </td>
                                                     )}
                                                 </tr>
