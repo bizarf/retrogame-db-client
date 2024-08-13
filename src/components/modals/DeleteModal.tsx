@@ -5,9 +5,12 @@ import { checkAccessToken } from "../../utilities/authUtils";
 import DeleteBtnYes from "../UI/DeleteBtnYes";
 
 const DeleteModal = () => {
+    // init universal cookie
     const cookies = new Cookies();
+
     const navigate = useNavigate();
 
+    // import zustand state and state setters
     const { setDeleteModal, deleteMode, id } = useDeleteModalStore();
 
     const handleCloseModal = () => {

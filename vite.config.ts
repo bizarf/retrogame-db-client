@@ -18,5 +18,10 @@ export default defineConfig(({ command, mode }) => {
         },
         plugins: [react()],
         base: "/retrogame-db-client",
+        test: {
+            globals: true,
+            environment: "jsdom",
+            setupFiles: "./tests/setup.ts",
+        },
     };
 });

@@ -17,6 +17,8 @@ const DeveloperEditor = () => {
     const navigate = useNavigate();
     // useParams init
     const { developer_id } = useParams();
+
+    // use required zustand states and state setters
     const { user } = useUserStore();
     const { editMode, setEditMode, resetEditMode } = useEditorStore();
 
